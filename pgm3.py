@@ -1,5 +1,6 @@
 from gensim.models import Word2Vec
 
+# Medical corpus
 corpus = [
     "patient diagnosed with diabetes",
     "diabetes treatment includes insulin therapy",
@@ -18,8 +19,10 @@ corpus = [
     "medical treatment helps patient recovery"
 ]
 
-data = [s.split() for s in corpus]
+# Tokenize sentences
+data = [sentence.split() for sentence in corpus]
 
+# Train Word2Vec model
 model = Word2Vec(
     sentences=data,
     vector_size=200,
@@ -28,10 +31,15 @@ model = Word2Vec(
     epochs=500
 )
 
+# Display top 5 words similar to "treatment"
+print("Top 5 words similar to 'treatment':")
 print(model.wv.most_similar("treatment", topn=5))
 
-# Most similar word to treatment
-most_similar_word, similarity_score = model.wv.most_similar("treatment", topn=1)[0]
+# Get the most similar word
+most_similar_word, similarity_score = model.wv.most_similar(
+    "treatment",
+    topn=1
+)[0]
 
 print("\nMost Similar Word to 'treatment':")
-print(most_similar_word, round(similarity_score, 2))
+print(f"{most_similar_word} ({similarity_score:.2f})")
