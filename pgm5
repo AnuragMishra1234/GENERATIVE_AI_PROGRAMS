@@ -1,0 +1,19 @@
+import gensim.downloader as api
+import google.generativeai as genai
+
+genai.configure(api_key="your_api_key")
+
+model = api.load("word2vec-google-news-300")
+
+seed = "ship"
+
+words = [w for w, _ in model.most_similar(seed, topn=5)]
+
+print("Similar words are:\n", words)
+
+prompt = f"Write a short paragraph using: {', '.join(words)}"
+
+print(
+    genai.GenerativeModel("gemini-2.0-flash-lite")
+    .generate_content(prompt).text
+)
